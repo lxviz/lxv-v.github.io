@@ -1,7 +1,7 @@
-+++
-title = "Post Title"
-categories = ["Windows"]
-tags = ["Windows"]
-date = "2006-01-10"
-draft = false
-+++
+---
+title: "Title Two"
+categories: ["macOS"]
+tags: ["macOS"]
+date: "2023-08-15"
+draft: false
+---
