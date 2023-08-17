@@ -1,0 +1,57 @@
+{{ define "main"  }}
+<div class="panel panel-default">
+  <div class="panel-body">
+     <article id='posts' >
+	<div class='title'> {{ .Title }} </div>
+	  {{ if eq .Section "posts" }}
+	  <span class="text-muted"><ion-icon name="ios-calendar"></ion-icon>Posted by:&nbsp; <time tile="创建于" itemprop="dateCreated datePublished" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time> | 
+	  <ion-icon name="ios-podium"></ion-icon>Word Count: {{ .WordCount }}&nbsp;&nbsp; | 
+	  <ion-icon name="ios-time"></ion-icon> Reading Time: {{ .ReadingTime }} Minute&nbsp;&nbsp;</span>
+	  {{ end }}
+{{ if and (gt .WordCount 400 ) (.Params.toc) }}
+	  <aside id="toc">
+	    <h2>Table Of Contents</h2>
+	    {{ .TableOfContents }}
+	  </aside>
+	  {{ end }}
+	  {{ .Content }}
+
+	  {{ if eq .Section "posts" }}
+	  	  <div class="tags">	
+
+	      {{ with .Params.categories }}
+	    <p class="categories">
+	      <ion-icon name="folder"></ion-icon>
+	      {{ range . }}
+{{ $namec := . }}
+{{ $special_word := dict "#" "%23" }}
+{{ range  $elem_key,$elem_val := $special_word }}
+{{ $namec = replace $namec $elem_key $elem_val }}
+{{ end }}
+ 
+	      <a class="btn btn-default btn-xs text-capitalize" href="/categories/{{ $namec }}/"> {{ . }}</a>
+	      {{ end }}
+	    </p>
+	    {{ end }}
+	    {{ partial "posts/tag/list" . }}
+	    	  </div>
+	    {{ end }}
+		  {{ if .Site.Params.ShowNextAndPrePosts }}
+<nav>
+  <ul class="pager">
+ {{if .NextPage}}
+    
+    <li class="previous"><a href="{{.NextPage.Permalink}}"><span aria-hidden="true">&larr;</span>{{.NextPage.Title}}</a></li>
+    {{ end }}
+
+    {{if .PrevPage}}
+    <li class="next">
+      <a href="{{.PrevPage.Permalink}}">{{.PrevPage.Title}}<span aria-hidden="true">&rarr;</span></a>
+    </li>
+    	{{end}}
+      </ul>
+</nav>
+{{ end }}
+     </div>
+      </div></article>
+{{ end }}
